@@ -1,0 +1,717 @@
+The main conference begins!
+
+\subsection{Session: Deep Learning Theory}
+
+First up is the ``Outstanding New Directions" paper on uniform convergence and generalization error in deep learning.
+
+\spacerule
+\subsubsection{Outstanding New Directions Paper: Uniform Convergence may be Unable to Explain Generalization in Deep Learning~\cite{nagarajan2019uniform}}
+
+Talk by Vaishnavh Nagarajan. \\
+
+{\bf Question:} Why do over-parameterized networks generalize well? \\
+
+
+Previous work: bound generalization bound (test error - train error $\leq$ generalization error), but these bounds all come from {\it uniform convergence}. \\
+
+{\bf This paper:} this direction of using uniform convergence to solve the generalization error puzzle may be limited! \\
+
+\ddef{Uniform convergence bounds}{A bound on the generalization gap based on the representational complexity of the whole hypothesis class:
+\begin{equation}
+    \text{test error} - \text{train error} \leq O\left( \sqrt{\frac{f(\mc{H})}{m}}\right)
+\end{equation}}
+
+previously proposed solution; refined uniform convergence bounds, leading to lots of new tools; PAC-Bayes, Rademacher Complexity, Covering Numbers, compression, and so on. \\
+
+But! Each of these bounds:
+\begin{enumerate}
+    \item Is too large/grow with parameter count.
+    \item Or are too small but don't hold on the original network (require change to network).
+\end{enumerate}
+
+
+{\bf First Finding:} these existing generalization bounds {\it increase} with training set size empirically.
+\begin{itemize}
+    \item Focus has been on parameter count dependence, not training set size.
+    \item We need to worry about training-dataset-size too!
+\end{itemize}
+
+{\bf Second Finding:} Provable failure of uniform convergence.
+\begin{itemize}
+    \item There are situations where any uniform convergence bound, however refined, will fail to explain generalization (it will be vacuous).
+    \item Main proof idea: {\it tightest uniform convergence}. What is the smallest uniform convergence for a given learner/hypothesis class? Can show even this is vacuous for deep nets.
+    
+    $\ra$ High level: even most refined hypothesis class is too complex.
+\end{itemize}
+
+Setup:
+\begin{itemize}
+    \item Given a training set $\mc{S}$, algorithm $h_S \in \mc{H}$, then w.h.p. $\mc{S} \sim D$:
+    \[
+    \text{test-error}(h_S) - \text{train-error}(h_S) \leq \text{generalization gap}
+    \]
+    
+    \item Now, exclude all irrelevant hypothesis leads to the {\it most refined hypothesis class] $\mc{H}^*$}.
+    
+    \item Proof idea is to show that, in binary (hypersphere) classification, even this most refined class will have vacuous generalization bounds.
+    
+    \item Learning details: 1000-dimensional hypersphere classification, 1-hidden layer ReLu, 100k units, SGD, trained to zero error.
+\end{itemize}
+
+
+\dbox{{\bf Conclusion:} Can uniform convergence provide a complete answer to the generalization puzzle? We believe {\it it cannot}}
+
+Future Work:
+\begin{itemize}
+    \item Mathematically characterizes the complexities in the decision boundary of deep networks
+    \item Explore other learning theoretic tools such as stability
+    \item Need to go beyond uniform convergence to explain generalization in deep nets.
+\end{itemize}
+
+\spacerule
+\subsubsection{On Exact Computation with an Infinitely Wide Neural Net~\cite{arora2019exact}}
+
+Talk by Rusong Wang. \\
+
+Recent work: shows NNs with sufficiently large width can achieve 0 training error via gradient descent (Li and LLiang, Du et al., Allen-Zhu et al.) \\DAVECITE
+
+This work: relationship between infinite width network and neural tangent kernal (NTK). \\
+
+Questions:
+\begin{enumerate}
+    \item Can we formally show prediction of NNs is equivalent to NTKs when width is sufficinelty large?
+    \item How does NTK perform?
+\end{enumerate}
+
+First Contribution:
+\begin{theorem}
+When width is sufficiently large (poly in data, depth, and $1/\eps$), the predictor learned by applying GD on a NN is $\eps$ close to kernel regression predictor of corresponding NTK.
+\end{theorem}
+
+Second Contribution:
+\begin{itemize}
+    \item Experiments with NTK for CNNs with efficient GPU implementations.
+    \item Compare test accuracy of different architectures/modifications of different width to NTK.
+    \item Main Observations:
+    \begin{enumerate}
+        \item Performance of NTK is highly correlated with CNN.
+        \item Still a gap between performance of CNN and NTK.
+    \end{enumerate}
+\end{itemize}
+
+Future Directions;
+\begin{itemize}
+    \item Understand design of neural net architectures and common techniques in deep learning such as batch norm, residual layers.
+    \item Combine NTK with other methods.
+\end{itemize}
+
+\spacerule
+\subsubsection{Generalization Bounds of SGD for Wide and Deep NNs \cite{cao2019generalization}}
+
+Talk by Yuan Cao.\\
+
+{\bf Previous observation} (see above references): wide nets can achieve zero training error, even when the test error remains large. \\
+
+Questions:
+\begin{enumerate}
+    \item Why do wide neural nets generalize?
+    \item What functions can be learned by wide nets?
+\end{enumerate}
+
+Results:
+\begin{enumerate}
+    \item As long as an NN is wide enough, the generalization error can compete with the best function class in the hypothesis class.
+    \item New generalization bounds based on the NTK.
+    \item The ``classifiability' of underlying data distribution can be measured by some function of the Gram matrix of the NTK (see Jacot et al).
+    DAVECITE
+\end{enumerate}
+
+Proof is based on: 1) Deep ReLu nets are almost linear in parameteres in a small neighborhood around initialization, and 2) Loss is Lipschitz continuous and almost convex. \\
+
+$\ra$ This result is applicable to general loss functions. \\
+
+Summary:
+\begin{enumerate}
+    \item New generalization bounds for wide DNNs that do not increase with network width
+    \item A random feature model (NTRF) naturally connext over-parameterized DNNs with NTK
+    \item Quantification of classifiability of data.
+\end{enumerate}
+
+\spacerule
+\subsubsection{Efficient and Accurate Estimation of Lipschits Constants for DNNs \cite{fazlyab2019efficient}}
+
+Talk by Alex Robey. \\
+
+{\bf Main Idea:} Efficiently measure Lipschitz constant in NNs. \\
+
+\ddef{Lipschitz Constant}{The smallest $L_2$ such that:
+\begin{equation}
+    ||f(x) - f(y)||_2 \leq L_2||x-y||_2\ \forall_{x,y \in \mathbb{R}^2}.
+\end{equation}}
+
+$\ra$ Extremely useful in ML for exploiting smoothness/structure in function or data space. Also: a lower Lipschitz constant implies more robustness. \\\\
+
+But! It's NP-Hard to compute in general. So how can we estimate it efficiently?
+\begin{itemize}
+    \item Simple method: can upper bound lipschitz constant via product or norms, but leads to highly conservative upper bound.
+    
+    \item {\bf This paper;} transform NN into a family of incrementally quadratically constrained linear Nets (IQCLN).
+    
+    \item Use optimization techniques (induce a semi-definite program) to give a tight upper bound to the Lipschitz constant of the original net.
+\end{itemize}
+
+Q: How does this bound compare to existing bounds in the literature? \\
+
+A: This new estimation is much tighter than existing methods. \\
+
+Also take a close look at adversarial robustness as it relates to Lipschitz constant.
+
+\spacerule
+\subsubsection{Regularization Effect of Large Initial Learning Rate~\cite{li2019towards}}
+
+Talk by Colin Wei. \\
+
+{\bf Observation:} Large initial learning rate is crucial for generalization. \\
+%Small learning rate eventually 
+
+{\bf This Paper:} Explain this phenomena. \\
+
+$\ra$ LR schedule changes order of learning patterns, which leads to generalization.
+
+\begin{itemize}
+    \item Small learning rate quickly memorizes hard to fit class signatures (ignores patterns, harms generalization)
+    
+    \item Large initial learning rate learns easy to fit patterns first: only memorizes hard to fit patterns after annealing. Learns to use all patterns, helps generalization!
+\end{itemize}
+
+Experiment on modified CIFAR10:
+\begin{itemize}
+    \item Group 1: 20\% examples with hard-to-generalize, easy to fit patterns (hard to generalize because of variations in image).
+    \item Group 2: 20\% examples with easy-to-generalize but hard-to-fit patterns (colored patches that identify the class).
+    \item Group 3: 60\% examples with both patterns.
+    
+    \item Finding:
+    \begin{itemize}
+        \item Small LR: memorizes patch, ignores rest of image
+        \item Large LR: ignores patch, only learns after annealing.
+    \end{itemize}
+    \item Also present proof of this trend in linear classification.
+\end{itemize}
+
+\spacerule
+\subsubsection{Data-Dependent Sample Complexity for Deep NNs~\cite{wei2019data}}
+
+For those that missed the previous talk, this is also by Colin Wei! :) \\
+
+Q: How do we design principled regularizers for deep models? \\
+
+A1: Principled approach---prove upper bounds on generalization error, regularize the upper bounds empirically. \\
+
+But: bottleneck in prior work. Mostly consider the norms of weight matrices, which lead to pessimistic bounds that are exponential in the net depth. \\
+
+{\bf This Work:} Data-Dependent Generalization Bounds. Add $g(\text{weights}, \text{training data})$ as an explicit regularizer, which shows up in generalization bounds. \\
+
+\begin{theorem}
+(informal)
+\begin{equation}
+    g(\cdot) = \frac{\text{jacobian norm of model w.r.t hidden layers} \times {\text{hidden layer norm}}}{\text{margin} \sqrt{\text{train set size}}}.
+\end{equation}
+\end{theorem}
+
+Roughly measures stability/Lipschitzness of the network around training examples. \\
+
+Final ingredient to derive the regularizer: penalize squared Jacobian norm in loss. Hidden layer controlled by normalization layers. \\
+
+Conclusion:
+\begin{itemize}
+    \item Tighter bounds by considering data-dependent properties
+    \item Bounds avoid exponential dependence on depth.
+    \item Optimizing this bounds improves empirical performance.
+\end{itemize}
+
+\spacerule
+
+\subsection{Test of Time: Dual Averaging Method for Stochastic Learning and Online Optimization \cite{xiao2010dual}}
+
+Talk by Lin Xiao. \\
+
+Acknowledge influence from Nesterov: this work was inspired by/extension of \citet{nesterov2009primal}. \\
+
+Exciting time to be in ML/AI! It was exciting in 2009 as well. There was lots of excitement about two topics, the conflict of which led to this paper. They were: 1) Stochastic Gradient Descent and 2) Online convex optimization.. \\
+
+SGD in stochastic optimization:
+\begin{equation}
+    \min_w \bE_z[f(w, z)],
+\end{equation}
+or in empirical risk minimization:
+\begin{equation}
+    \min_w \frac{1}{n} \nsum f(w,z_i),
+\end{equation}
+Simply means doing gradient based updates. \\
+
+$\ra$ Will also need some basic convergence theory:
+\begin{enumerate}
+    \item $O(1 / \sqrt{t})$ rate if $f(\cdot, z)$ convex and $\alpha_t \sim t / \sqrt{t}$
+    \item $O(1 / t)$ if $f(\cdot, z)$ strongly convex and $\alpha_t \sim 1/t$.
+\end{enumerate}
+
+In convex optimization:
+\begin{itemize}
+    \item Input is a convex set $\mc{S}$
+    \item Then, for each round, simply:
+    \begin{enumerate}
+        \item Predict a vector $w_t \in \mc{S}$
+        \item Receive a convex loss function $f_t$, suffer loss $f_t(w_t)$
+    \end{enumerate}
+    \item Goal is to minimize regret:
+    \[
+    R_T = \sum_{t=1}^T f_t(w_t) - \min_{w \in\mc{W}}\sum_{t=1}^T f_t(w).
+    \]
+    \item $R_t = O(\sqrt{T})$ for convex, $O(\ln(T))$ for strongly convex.
+    
+    \item See more by \citet{duchi2011adaptive}.
+\end{itemize}
+
+Another exciting area from 2009: compressed sensing/sparse optimization. \\
+
+$\ra$ Lasso \cite{tibshirani1996regression}!
+\begin{equation}
+    \min_w \frac{1}{2} ||Xw - y||_2^2,\hspace{6mm} \text{subject to} ||w||_1 \leq \delta.
+\end{equation}
+Lots of theory and algorithms from the 2000s (interior point methods, proximal gradient methods). \\
+
+Proximal gradient method:
+\begin{itemize}
+    \item Compositve convex optimization:
+    \[
+    \min_w f(w) + \psi(w),
+    \]
+    with $f$ convex and smooth, $\psi$ convex and simple.
+    \item Subgradient method;
+    \[
+    w_{t+1} = w_t - \alpha_t (\nabla f(w_t) +\chi_t).
+    \]
+    \item Proximal gradient method:
+    \[
+    w_{t+1} = \argmin_w \left\{f(w_t) + \langle \nabla f(w_t), w-w_t\rangle + \psi(w) + \frac{1}{2\alpha} ||w - w_t||^2\right\},
+    \]
+    with a constant $\alpha$, achieves $O(1/t)$ convergence.
+    
+    $\ra$ Equivalent form: forward-backward splitting.
+    
+    \item Soft-thresholding, where $\psi(w) = \lambda ||w||_1$:
+    \begin{align}
+        w_{t+1}^(i) &= \text{shrink}\left(w_{t+1/2}^{(i)}, \alpha\lambda\right) \\
+        \text{shrink}\left(\omega, \alpha\lambda\right) &- \begin{cases}
+        \omega - \alpha\lambda& \omega > \alpha\lambda \\
+        0& |\omega| \leq \alpha\lambda \\
+        \omega + \alpha\lambda& \omega < -\alpha\lambda \\
+        \end{cases}
+    \end{align}
+\end{itemize}
+
+\dbox{{\bf Motivation} for this paper: {\it how do we put together all three of these techniques?}} \\
+
+$\ra$ SGD/OCO meets sparse optimization! \\
+
+Stochastic subgradient method:
+\[
+w_{t+1} = w_t - \alpha_t (g_t + \chi_t)
+\]
+where $g_t = \nabla f(w_t,z_t)$, yields a slow convergence rate of $O(1/\sqrt{t})$. \\
+
+Q: But what about sparsity? \\
+
+A: Sure! Extend proximal gradient method in the stochastic setting, where we replace the gradient with a subgradient. \\
+
+{\bf The Algorithm:} Regularized Dual Averaging (RDA) makes two changes: 1) Replace the single linear approximation with the average of all linear approximations, and 2) quadratic penalty becomes smaller, allowing for larger step sizes. \\
+
+\begin{equation}
+    w_{t+1} = \argmin_w \left\{\langle \bar{g}_t, w \rangle + \psi(w) + \frac{\gamma}{\sqrt{t}} \frac{||w - w_0||_2^2}{2}\right\},
+\end{equation}
+where $\bar{g}_t = \frac{1}{t}\sum_{\tau=1}^t g_\tau$. \\
+
+Can replace $\gamma$ with some parameter $\beta_t$ to penalize depending on aspects of the learning problem. Thus, this is why this is an extension of Nesterov's DA method: $\phi(w) = 0$ or indicator of convex set. \\
+
+$\ra$ Standard theory here: same regret/convergence rate. \\
+
+Experiments on MNIST:
+\begin{itemize}
+    \item Binary classification on MNIST.
+    \item Explore impact of the regularization/penalty term on performance.
+    \item Compare SGD, proximal methods, RDA.
+\end{itemize}
+
+Further results and extensions:
+\begin{itemize}
+    \item Later interpretation of RDA from \citet{mcmahan2011follow} that shows some equivalence/relationship to Proximal SGD, FTRL-Proximal.
+    \item Further developments: manifold identication \cite{lee2012manifold}, analyze the general and strong convex case.
+    \item Other extensions: accelerated version of RDA, RDA-ADMM, distributed, and so on.
+    
+    \item Adaptive RDA (ADA-RDA)~\cite{duchi2011adaptive}: an adaptive version (variant of AdaGrad) of RDA that is well suited to sparsity.
+\end{itemize}
+
+Q: What about nonconvex optimization? \\
+
+A: Very active in recent years due to deep learning. \\
+
+$\ra$ Proximal SGD works with $\ell_1$ regularization. \\
+
+Q: Would variants of RDA work for nonconvex optimization? \\
+
+$\ra$ Promising for sparse CNN \cite{jia2018irda}. Provable convergence with constant step size. \\
+
+Final reflections:
+\begin{itemize}
+    \item Motivation for RDA remains valid today:
+    \begin{enumerate}
+        \item we know stochastic gradient online optimization is a mainstay of ML.
+        \item But, structured sparsity is essential in scaling, too!
+    \end{enumerate} 
+    \item Additional challenges today: non-convexity!
+    
+    $\ra$ Also more complex and structured models today as well.
+    
+    \item Exciting progress lies ahead.
+\end{itemize}
+
+\spacerule
+
+
+
+\subsection{Session: Reinforcement Learning}
+Next up, RL!
+
+\subsubsection{Causal Confusion in Imitation Learning \cite{de2019causal}}
+
+
+Talk by Pim de Haan. \\
+
+Imitation learning: powerful mechanism for learning complex behaviors! See: flying drones, grasping fish. \\
+
+$\ra$ Simplest version is behavioral cloning, reduces imitation learning to supervised learning. Just learn to clone the expert exactly. Not perfect, though, since errors from the expert accumulate as we move to states outside the regular state distribution. \\
+
+Q: Does more information mean better performance? \\
+
+A: Let's answer via example. Consider learning to drive where an agent learns to drive and sees the first-person view of driving a car. But, also including a ``break light" can lead to confusion! This is causal confusion. \\
+
+That is: consider two systems; 1) predicts expert action from road view and brake indicator, and 2) predicts expert action from only road view. Turns out the 2nd can be better by avoiding confusion! \\
+
+Control {\bf experiments:}
+\begin{itemize}
+    \item Add nuisance information to the state to create a confounded state representation.
+    
+    \item Apply this transformation to Atari, Mountain Car, and MuJoCo---specifically this means drawing (visually) information about the past action onto the screen.
+    
+    $\ra$ Nuisance is roughly a Pong screen with a big number in the bottom left indicating which action was last taken (and so on for other environments).
+    
+    \item To solve causal confusion, we need:
+    \begin{itemize}
+        \item Causal graph of expert
+        \item Neural net predictor of action given causes
+    \end{itemize}
+    \item Phase one: model causal graph as binary vector
+    \item Training: 1) randomly sample a causal graph, 2) then mask out nuisance part of the state, 3) feed this into an NN to predict action, 4) NN is fit to a behavioral cloning loss to learn a policy.
+\end{itemize}
+
+Q: How do we infer the right causal graph?
+\begin{itemize}
+    \item Expert demonstrations are insufficient, intervention is necessary
+    \item Intervene by executing policies
+    \item Score graphs based on additional info.
+    \item Two Modes of intervention:
+    \begin{enumerate}
+        \item Targeted intervention by expert queries.
+        \item Targeted intervention by policy execution, given access to some rewards in the environment. Graphs with high rewards become more likely.
+    \end{enumerate}
+    \item Give upper bounds on performance for both modes, results indicate strong learning performance.
+    
+    $\ra$ Conclude from the data the algorithm infers a good causal graph.
+\end{itemize}
+
+Summary:
+\begin{itemize}
+    \item Causal confusion happens often in imitation learning
+    \item More information in the state can hurt performance by being confusing
+    \item Solved in benchmark environments by few targeted interventions.
+\end{itemize}
+
+
+\subsubsection{Imitation Learning from Observations by Minimizing Inverse Dynamics Disagreement}
+
+Talk by Chao Yang. \\
+
+\ddef{Imitation learning}{Given an MDP without $R$ and a set of expert demonstrations, find a policy that mimics expert behavior well.}
+
+Q: What if we don't have {\it action} information in these expert demonstrations? So:
+\[
+D = \{\tau_1, \ldots, \tau_m\} = \{(s_0, \neg a_0, \s_1, \ldots)\}.
+\]
+Taking the divergence minimization perspective seems feasible (as in GAIL), but generalize state to observation, yields GAiFO. Without actions, though, need anothher trick. So idea for the new loss function is:
+\[
+\tx{IDD} = \tx{GAIL} -\tx{GAIfO}.
+\]
+
+% Overall objective, then is:
+% \begin{equation}
+%       \min_\pi D-f(\rho_\pi(s,s')|| \rho_E(s,s'))
+% \end{equation}
+
+Carry out quantitative comparison to other imitation learning approaches in OpenAI gym environments, achieve state of the art. \\
+
+\subsubsection{Learning to Control Self-Assembling Morpholgies}
+
+Talk by Deepak Pathel. \\
+
+Q: How do we train a robot? \\
+
+A: Lots of options! Demonstrations, batch of data, from scratch/exploration, self-supervision, and so on. \\
+
+$\ra$ But, doing learning from scratch can be challenging for {\it hardware} reasons. Hardware is designed for learned systems, typically, not to make learning to control easy. \\
+
+{\bf Main Idea;} Co-Evolution of control and morphology. \\
+
+Example: A cylinder and a cone can be combined via a magnet to make more complex objects. Individual items are ``dumb" and can't do much, but when they assemble they can create complicated structures. Thus it's about learning to combine (learn to stand up). \\
+
+Q: How do we learn compositional controllers? \\
+
+A: Each limb/component is a separate policy network with shared parameters. Treat these policies as Lego blocks. Let them pass messages to each other and accept messages from others. \\
+
+$\ra$ This idea of message passing we call ``Dynamic Graph Networks". \\
+
+Experiments: 1) combine a large number of mini components (in 3d mujoco like environment) via magnets to get them to stand up, 2) also look at locomotion tasks involving climbing stairs and crossing trenches.
+
+
+\subsubsection{A Structured Prediction Approach for Generalization in Cooperative Multi-Agent RL \cite{carion2019structured}}
+
+Talk by Nicolas Carion. \\
+
+Setting: lots of agents that must coordinate to solve a task. Each agent is given its own task. \\
+
+{\bf Main contribution:} Find policies that generalize to new agent-task pairs not seeing during training. \\
+
+Idea: compute score on previous pairs, using structured inference, use this to infer new policy on new pairs. \\
+
+Q: How can we increase collaboration across agents? \\
+
+A: Add a new constraint to the optimization to make it a linear program. The constraint encourages agents to cooperate. Further extend the LP to a quadratic program. \\
+
+Experiments in Starcraft: strategy learns to focus attack of an army on a handful units, and thereby seems to encourage cooperation. Also generalizes to new and larger armies. \\
+
+{\bf Conclusion:} A practical method for scaling MARL by generalizing to large instances from small training scenarios.
+
+\subsubsection{Learning Compositional neural Programs with Recursive Tree Search \cite{carion2019structured}}
+
+Talk by Thomas Pierrot. \\
+
+Natural way to define rewards is {\it binary}: did the RL agent succeed or not? \\
+
+$\ra$ But, of course, this makes exploration extremely hard, as the agent only gets feedback after a success. \\
+
+{\bf New agent:} AlphaNPI that uses modularity, hierarchy, and recursion as structural biases to reduce sample complexity, improve generalization, and increase interpretability. \\
+
+Assumptions:
+\begin{itemize}
+    \item Assumes a hierarchical program specification
+    \item Sparse rewards: 1 when the program execution satisifes the spec, and 0 otherwise.
+\end{itemize}
+
+AlphaNPI is based on the Neural Program Interpreter: a recursive compositional neural network's policy and a value function estimator. \\
+
+AlphaNPI works as a standard program execution in a computer: execution is saved into a stack, execution is passed back after a subprocedure finishes, and so on.\\
+
+Experiments: AlphaNPI to learn libraries of programs to achieve sorting and searching tasks, seems to work!
+
+
+\subsubsection{Guided Meta-Policy Search}
+
+Talk by Russell Mendonca. \\
+
+RL has high sample complexity: typical benchmark tasks with SOTA approaches takes on the order of millions of samples required. \\
+
+Meta-Learning is one possible solution to this problem by making efficent use of previous training tasks. \\
+
+$\ra$ But, most meta-RL methods also requires huge amounts of data for the training phase, even if the adaptation is efficient. Also shortcomings in exploration and credit assignment during the training phase. \\
+
+Introduce: Guided Meta-Policy Search, that can quickly adapt to solve any task from the distribution of training tasks.
+\begin{itemize}
+    \item On each train task, learn a local policy using sample efficient methods.\footnote{\dnote{?}}
+    \item Then, using a supervised meta-RL objective, form updated policies. This decouples the meta-RL problem, allowing for the use of off-policy learning.
+\end{itemize}
+
+Experimental evaluation in 1) simulated sawyer robot tasks, and 2) ant Locomotion tasks. Method achieves extremely sample efficient learning on these tasks. \\
+
+$\ra$ Also study Meta-learning from demos. \\
+
+Code: \durl{https://github.com/russellmendonca/GMPS}
+
+\subsubsection{Using a Logarithmic Mapping to Enable a Lower Discount Factor \cite{van2019using}}
+
+Talk by Harm ven Seijen. \\
+
+Q: How do we measure performance? \\
+
+A: A few methods:
+\begin{align}
+    \text{finite horizon} &= \sum_{i=1}^H R_i, \\
+    \text{infinite horizon} &= \sum_{i=1}^\infty \gamma^{i-1} R_i,
+\end{align}
+for $\gamma \in [0,1)$. But, most $\gamma$s need to be near one to be useful/meaningful, which makes learning hard! How can we get around this? \\
+
+Suppose we do linear function approximation with tile coding on a long chain problem
+\begin{itemize}
+    \item For high discount factors, performance is okay!
+    \item For anything below a high discount factor, however, performance is dreadful. Even with more data, even with tuning the tile coding, performance is really bad.
+\end{itemize}
+
+Q: But why? \\
+
+A: One idea is to look at the {\it action gap}.
+
+\ddef{Action Gap}{The action gap of a state is:
+\begin{equation}
+    \Delta_A(s) := Q^*(s,a^*) - Q^*(s,\tilde{a}),
+\end{equation}
+where $\tilde{a}$ is the best non-optimal action.}
+
+The action gap is useful because it tells us how small our error should be if we want to be optimal. \\
+
+$\ra$ Action gap exponentially decreases the further you get away from positive reward (in a long chain problem). Thus, with small discount factors, this gap will decrease much more rapidly. \\
+
+Q: But why bad behavior for low discount factors? \\
+
+A: Systematiclly disproved lots of hypotheses, but found hypothesis that seemed promising:
+
+(Possible) Cause of bad behavior for low discount factors: {\it poor performance of low discount factors is caused by large size differences in the action gap across the state space}. \\
+
+$\ra$ Gives rise to logarithmic mapping of the discount factor. So: $\tilde{Q} \mapsto \ln(Q)$. \\
+
+{\bf New Algorithm:} (special case with $R \in \mathbb{R})_{\geq 0}$ and deterministic $T$). Logarithmic Q-Learning. Performs Q update where:
+    \begin{equation}
+        \tilde{Q}_{t+1}(s_t,a_t) := (1-\alpha)\tilde{Q}_t(s_t,a_t) + \alpha f(r_t + \gamma \max_{a'} f^{-1}(\tidle{Q}_t(s_{t+1}, a')).
+    \end{equation}
+    
+Issues in extending to Stochastic Environments. Becuase of Jensen's Inequality ($\bE[\ln(X)] \leq \ln(\bE[X])$, where $X$ is some random variable, so it seems like previous update rule is applied to stochastic environment, converges to underestimate. \\
+
+But! Can be fixed. New update involves two step sizes, one for the ``regular" Q space, one for the logarithmic space. 
+
+\begin{theorem}
+This variant of logarithmic Q-learning preserves convergence guarantees of Q-Learning.
+\end{theorem}
+
+Empirical performance is good, too: applied to tabular MDPs and propose logDQN; on average it improves over DQN. \\
+
+$\ra$ Underperforms relative to DQN on a few games where the action gaps are too homogeneous.
+
+
+\subsubsection{Better Exploration with Optimistic Actor Critic}
+
+Talk by Kamil Ciosek. \\
+
+Greedy is bad! \\
+
+But, policy gradients are greedy. Also: use a lower bound on the critic. If the bootstrap is too large, then the value estimate becomes too large, which is amplified by policy optimization. \\
+
+$\ra$ Conservative update reduces overestimation (as in Double Q). \\
+
+Note: combination of greediness + lower bound can lead to pessimistic exploration. Variance is small, don't explore enough. \\
+
+{\bf This Paper:} Use the bootstrap to make an upper bound to achieve optimistic exploration. \\
+
+$\ra$ UCB style exploration bonus. \\
+
+Want a policy that: 1) is close to target policy, and 2) maximizes the critic upper bound. \\
+
+Super easy to implement this form of optimistic exploration: shift the exploration policy in the direction of the upper bound. Empirical results are very promising, improve over Soft Actor-Critic (SAC). 
+
+\subsubsection{Robust Exploration in Oriented-Exploration in LQ Control}
+
+Talk by Hakan Hjalmarsson. \\
+
+{\bf Goal:} Do exploration that is 1) robust and 2) targeted.
+\begin{itemize}
+    \item Robust: does not destabilize the system or cause failure.
+    \item Targeted: provides knowledge that helps complete the task.
+\end{itemize}
+
+Handle the exploration-exploitation tradeoff by formulating policy search as a convex optimization problem which can be solved for the global optimum. \\
+
+$\ra$ Focus on Linear Quadratic Control. Task is to find a state-feedback controller to minimize a quadratic cost. \\
+
+Key quantity: the empirical covariance $D = \sum_{t=0}^T \mat{x_t \\ u_t} \mat{x_t \\ u_t}^\top$. \\
+
+Yields a simplified optimization problem. Preserves structure by working with this empirical covariance matrix $D$. \\
+
+Empirical findings: performance of this method is better even though absolute uncertainty is larger. \\
+
+\subsubsection{Tight Regret bounds for Model-Based RL with Greedy Policies}
+
+Talk by Yonathon Efroni. \\
+
+{\bf One Line Summary:} Same minimax bounds to model-based RL with short-term and long-term planning. \\
+
+$\ra$ Factor of $\mc{S}$ less computation. \\
+
+Previous regret bounds;
+\begin{itemize}
+    \item Model-Based RL: minimax regret $O(\sqrt{HSAT})$
+    \item Model-Free RL: Q-Learning regret $O(\sqrt{H^3SAT})$
+\end{itemize}
+
+Q: So, why aren't we using model-based RL? \\
+
+A1: Lots of space complexity. \\
+A2: High computational complexity (requires MDP solving each episode). \\
+
+This work; model-based RL with short-term planning is minimax optimal for finite-horizon MDPs. \\
+
+Open question: if one-step planning is minimax optimal, why do we need to use lookahead policies?
+
+\subsubsection{Hindsight Credit Assignment}
+
+Talk by Anna Harutyunyan. \\
+
+Central Q of Credit Assignment: How did past actions influence future outcomes? \\
+
+Usual Answer/algorithmic strategy: rely on MDP structure and use {\it time} as main proxy for credit relevance. \\
+
+Example; Credit Assignmeint in RL (CARL) has to figure out what caused him to be wet during the day. As an RL algorithm, CARL would spend many days getting wet by not bringing an umbrella. \\
+
+$\ra$ This paper: try to learn credit relevance {\it explicitly}. \\
+
+Idea: study $P(a \mid x, f(\tau))$, where $a$ is a past action and $f(\tau)$ is some relevant future outcome (like CARL getting rained on). \\
+
+Hindsight Credit Assignment is about rewriting our usual value function:
+\begin{equation}
+    Q^\pi(x,a) = r(x,a) + \bE_{\tau \sim T(x,\pi)} \left[\sum_{k \geq 1} \gamma^k \frac{P(a \mid x, f(\tau))}{f(\tau)}V^\pi(x')\right].
+\end{equation}
+
+Whole new family of algorithms dedicated to learning the hindsight distribution.
+
+\subsubsection{Weight Agnostic Neural Networks}
+
+Talk by Adam Gaier. \\
+
+Central Q of this work: To what extent can neural net architectures alone encode solutions to tasks? \\
+
+$\ra$ A different kind of neural architecture search.
+\begin{itemize}
+    \item Search for networks that perform without training! Do zero shot learning
+    \item But, add single shared weight value used for all connections.
+\end{itemize}
+
+Four key steps
+\begin{enumerate}
+    \item Initiatlize: create pop of minimal nets
+    \item Evaluate: test with range of shared wieght values
+    \item Rank: by performance/complexity
+    \item Vary networks
+\end{enumerate}
+
+Test WANNs on a variety of RL tasks (cart pole, bipedal walker, : find that WANNS perform well with and without training, but perhaps more importantly can do so with significantly smaller neural nets. \\
+
+For fun: tried on MNIST as well using the same rough scheme. Random weight finds 82\% accuracy, tuned gets around 92\%. \\
+
+Point: steps toward a new kind of neural architecture search.
+
+Code and more at \durl{weightagnostic.github.io}.

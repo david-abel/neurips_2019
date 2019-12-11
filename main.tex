@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+
+% --- Packages ---
+\usepackage[usenames, dvipsnames]{color} % Cool colors
+\usepackage{enumerate, amsmath, amsthm, amssymb, mathrsfs, algorithm, algpseudocode, fontawesome, pifont, subfig, fullpage, csquotes, dashrule, tikz, bbm, booktabs, bm, hyperref, wasysym}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage[numbers]{natbib}
+\usepackage[normalem]{ulem}
+
+% --- Misc. ---
+\hbadness=10000 % No "underfull hbox" messages.
+\setlength{\parindent}{0pt} % Removes all indentation.
+
+% -- Commands --
+\input{commands}
+
+% Nice coloring of references.
+\usepackage{hyperref}
+\hypersetup{               
+    colorlinks=true,              
+    breaklinks=true,               
+    urlcolor=dblue,
+    linkcolor=dgreen,
+    linkbordercolor=dgreen,
+    citecolor=dblue,
+    citebordercolor=dblue
+}
+
+
+
+\title{NeurIPS 2019 Notes \\ \Large{Vancouver, BC, Canada}}
+\author{David Abel\footnote{\durl{http://david-abel.github.io}} \\ \durl{david_abel@brown.edu}}
+\date{December 2019}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+
+This document contains notes I took during the events I managed to make it to at NeurIPS 2019 in Vancouver, BC, Canada. Please feel free to distribute it and shoot me an email at \durl{david_abel@brown.edu} if you find any typos or other items that need correcting. \\
+
+I was in meetings most of the conference this year, so I missed a lot more than usual. \\
+
+
+\section{Conference Highlights}
+
+
+
+
+% ------------
+% -- Monday --
+% ------------
+% \newpage
+% \section{Monday December 9th: Tutorials}
+% \input{days/monday_december_9_2019.tex}
+
+
+
+% -------------
+% -- Tuesday --
+% -------------
+\newpage
+\section{Tuesday December 10th: Main Conference}
+\input{days/tuesday_december_10_2019.tex}
+
+
+
+% ------------
+% -- Wednesday --
+% ------------
+\newpage
+\section{Wednesday December 11th: Main Conference}
+\input{days/wednesday_december_11_2019.tex}
+
+
+% --------------
+% -- Thursday --
+% --------------
+\newpage
+\section{Thursday December 12th: Main Conference}
+\input{days/thursday_december_12_2019.tex}
+
+
+% ------------
+% -- Friday --
+% ------------
+\newpage
+\section{Friday December 13th: Workshops}
+\input{days/friday_december_13_2019.tex}
+
+
+% ------------
+% -- Saturday --
+% ------------
+\newpage
+\section{Saturday December 14th: Workshops}
+\input{days/saturday_december_14_2019.tex}
+
+
+
+
+% --- Bibliography ---
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{neurips}
+
+\end{document}
