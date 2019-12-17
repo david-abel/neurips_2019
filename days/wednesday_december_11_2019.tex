@@ -1,6 +1,9 @@
+Day two! 
 
 \subsection{Session: Reinforcement Learning}
-Today, more RL!
+
+Mostly in the RL sessions today.
+
 \subsubsection{A Neurally Plausible Model Learns Successor Representations in Partially Observable Environments \cite{vertes2019neurally}}
 
 Talk by Eszter Vertes. \\
@@ -11,15 +14,27 @@ A:  Distributed distributional code (DDC), and successor features (SFs)! \\
 
 {\bf This Paper:} How to elegantly combine DDC and SFs to form distributional successor features, how to learn them, and connections to neuroscience. \\
 
-Distributional successor features:
+\ddef{Successor representation}{The successor representation is given by:
 \[
-%DDC belief states:
-\mu = \bE[\psi(s)]
-\]
-\[
-% Distr. SFs
-M^{\pi}(\mu) = \bE_\pi
-\]
+M^{\pi}(s_i, s_j) = \bE_\pi \left[\sum_{k=0}^\infty \gamma^k \indic\{s_{t+k} = s_j \} \mid s_t = s_i\right].
+\]}
+
+% \ddef{Distributed distributional code}{The DDC is given by:
+% \[
+% \mu_t(o_1, o_2, \ldots, o_t) = \bE_{q(s_t \mid o_1, \ldots, o_t)}[\psi(s_t)],
+% \]
+% with $\psi(s)$ a vector 
+% }
+
+% Distributional successor features:
+% \[
+% %DDC belief states:
+% \mu = \bE[\psi(s)]
+% \]
+% \[
+% % Distr. SFs
+% M^{\pi}(\mu) = \bE_\pi
+% \]
 
 Q: How do we learn distributional successor features? \\
 
@@ -43,6 +58,7 @@ Contributions:
     \end{itemize}
 \end{itemize}
 
+\spacerule
 \subsubsection{DualDICE: Behavior-Agnostic Estimation of Discounted Stationary Distribution Corrections \cite{nachum2019dualdice}}
 
 Talk by Ofir Nachum. \\
@@ -69,6 +85,7 @@ Main Ideas:
 
 The DualDICE operator then leads to a new error term that consist of minimizing squared Bellman error while also maximizing initial $\nu$-values. Desirable because objective is based on expectations from things we have access to.
 
+\spacerule
 \subsubsection{VIREL: A Variational Inference Framework for RL \cite{fellows2019virel}}
 
 Talk by Matthew Fellows. \\
@@ -97,6 +114,7 @@ $\implies$ Main result from the work is to outline the VIREL framework, which th
 
 Yields new class of Actor-Critic algorithms based on Expectation-Maximization. Evaluate on MuJoCo environments and find gains in sample efficiency.
 
+\spacerule
 \subsubsection{Unsupervised Curriculua for Visual Meta RL \cite{jabri2019unsupervised}}
 % 
 Talk by Kyle Hsu. \\
@@ -125,6 +143,7 @@ Q: What kinds of tasks are discovered by the procedure? \\
 
 A: Experiments in VizDoom, visualize different generated tasks. \\
 
+\spacerule
 \subsubsection{Policy Continuation with Hindsight Inverse Dynamics \cite{sun2019policy}}
 
 Talk by Hao Sun. \\
@@ -143,6 +162,7 @@ New Idea: equip inverse dynamics with hindsight (HID). But, 1-step HID is not en
 
 Experiments on simulated robot domain and grid navigation.
 
+\spacerule
 \subsubsection{Learning Reward Machines for Partially Observable RL \cite{icarte2019learning}}
 
 Talk by Rodrigo Icarte. \\
@@ -166,7 +186,7 @@ This paper:
     \caption{Reward Machines as memory}
     \label{fig:rm}
 \end{figure}
-
+ 
 Introduce RM-DQN, a DQN variant that learns and uses a reward machine. \\
 
 Overall approach:
@@ -178,3 +198,256 @@ Overall approach:
 \end{itemize}
 
 \spacerule
+
+
+\subsection{Keynote: Yoshua Bengio on System 1 and System 2 in Deep Learning}
+
+State of deep learning: amazing progress this century! \\
+
+Q: is it enough to grow datasets, model sizes. or computer speed? \\
+
+Q: Are wwe still far from human-level AI? \\
+
+Some Answers: Narrow AI, sample efficiency, human-provided labels, robustness, stupid errors. Next step could be completely different from deep learning. \\
+
+{\bf Focus Today:} There is a path from deep learning today to system 2! \\
+
+
+Inspiration: ``Thinking Fast and Slow" by Daniel Kahneman.
+
+\ddef{System 1}{Intuitive, fast unconscious non-linguistic, and habitual decision making/inference.}
+
+Note: deep learning is good at this (system 1)!  
+
+\ddef{System 2}{Slow, logical, sequential, conscious, linguistic, algorithmic,decision making.}
+
+$\implies$ Claim: the future of deep learning is extending what works in system 1 to system 2. \\
+
+Some things that are missing from deep learning right now:
+\begin{enumerate}
+    \item Out of distribution generalization and transfer
+    \item High level cognition: need to move from system 1 to system 2.
+    \begin{itemize}
+        \item High level semantic representation.
+        \item Compositionality.
+        \item Causality.
+    \end{itemize}
+    \item Agent perspective:
+    \begin{itemize}
+        \item Machines that understand the world by building world models
+        \item Knowledge-seeking
+    \end{itemize}
+\end{enumerate}
+
+{\bf Theme Today:} These three areas are intimately connected, and these connections can help us identify a path forward in AI/ML research. \\
+
+The talk:
+\begin{enumerate}
+    \item ML Goal: Handle Changes in Distribution
+    \item System 2 Basics:  Attention and Consciousness
+    \item Consciousness Prior:  Sparse Factor Graph
+    \item Theoretical  framework:  meta-learning,  localized  change hypothesis→causal discovery
+    \item  Compositional DL architectures
+\end{enumerate}
+
+% Consciousness Funtionalities: Roadmap for Priors Empowering System 2
+\spacerule
+\subsubsection{ML Goal: Handle Changes in Distribution}
+
+Classical ML theory is {\it for i.i.d. data}. Without this assumption we can't say anything about generalization. \\
+
+$\ra$ Naturally, this assumption is unrealistic. \\
+
+But: {\it ``Nature does not shuffle the data, we shouldn't"}
+-- Leon Bottou (ICML 2019 Keynote). \\
+
+Out of distribution generalization and transfer breaks the i.i.d. hypothesis, so what do we do? Can we replace it with something else? \\
+
+A: Agent learning needs out-of-distribution (OOD) generalization. \\
+
+
+Why? Well: Agents face non-stationarities resulting from 1) their actions, 2) actions of other agents, 3) different places, times, sensors, and so on. \\
+
+{\bf Claim:} compositionality helps OOD generalization. \\
+
+$\ra$ Different forms of compositionality, each comes ith different exponential advantages. See, for instance:
+\begin{itemize}
+    \item Distributed representations
+    \item Composition of layers in deep nets DAVEEITE: Montufar NeurIPS 2014
+    \item Systematic generalization in language, analogies, abstract reasoning.
+\end{itemize}
+
+Q: So, how do we do systematic generalization? \\
+
+A: Important to dynamically recombing existing concepts, {\it even when new combinations have 0 probability under training distributions}. Think of a science fiction scenario! We don't live that, but can still imagine it and draw meaningful insights from it. \\
+
+$\ra$ Current methods are not effective for this. \\
+
+Q: How does what you are proposing contrast with the symbolic AI program? \\
+
+A: Avoids pitfalls of classical AI rule-based symbol manipulation. That is, we need the following:
+\begin{itemize}
+    \item Need efficient large-scale learning
+    \item Need semantic grounding in system 1
+    \item Need distributed representations for generalization
+    \item Need efficient (trained) search for both systems
+    \item Need systems that can properly handle uncertainty in the world.
+\end{itemize}
+
+But, we also want:
+\begin{itemize}
+    \item Systematic generalization
+    \item Factorizing knowledge in small exchangeable pieces
+    \item manipulating variables, instances, references, and indirection.
+\end{itemize}
+
+
+\spacerule
+\subsubsection{System 2 Basics: Attention and Consciousness}
+
+{\bf Claim:} Key ingredient for consciousness is {\it attention}. \\
+
+Q: What is attention? \\
+
+A: Focus on one or a few elements at a time. Content-based soft attention is convenient because we can backprop to learn where to attend. Lots of benefits:
+\begin{enumerate}
+    \item Neural Machine Translation revolution \cite{bahdanau2014neural}.
+    \item SOTA in NLP, self attention/transformers
+    \item Memory-extended neural nets
+    \item Address vanishing gradients
+    \item Operating on unordered sets.
+\end{enumerate}
+
+$\ra$ Attention creates a {\it dynamic} connection between two layers of a neural net. \\
+
+From Attention to Consciousness:
+\begin{itemize}
+    \item ``C"-word is not taboo anymore in cognitive neuroscience
+    \item One main theory: ``Global Workspace Theory" \cite{baars2005global}.
+    \begin{itemize}
+        \item Bottleneck of conscious processing
+        \item Selected item is broadcast, stored in short-term memory, conditions perception and action
+        \item System 2 like sequential processing, conscious reasoning and planning and imagination.
+    \end{itemize}
+\end{itemize}
+
+Q: So how can we connect these ideas to machine learning? (can the two communities help each other?) \\
+
+A: ML can help us formalize, in a mechanistic way, and test specific hypothesized functionalities of consciousness. This could: 1) get the magic out of consciousness, 2) understand evolutionary advantage of consciousness by grounding it to computation and statistics. \\
+
+Concsciousness closely related to language: we assign consciousness from humans reporting, and moreover, high level representations are deeply connected to language. \\
+
+$\ra$ Thus, a connection between System 1 and System 2: meaning anchored in low-level perception and action. \\
+
+So need {\it grounded language learning}, such as BabyAI \cite{chevalier2018babyai}.
+
+\spacerule
+\subsubsection{Consciousness Prior: Sparse Factor Graph}
+
+Q: So what kinds of priors and structures can we use to get our learning algorithms to use these kinds of abilities? \\
+
+Proposal one: the consciousness prior \cite{bengio2017consciousness}.
+\begin{itemize}
+    \item Attention: to form conscious state and thought
+    \item A thought is a low-dimensional object, few selected aspects of the unconscious state
+    \item Need 2 high level states: 1) large unconscious state, and 2) tiny conscious state.
+    \item Part of inference mechanism with respct to joint distribution of high-level variables.
+\end{itemize}
+
+Concretely, the consciousness prior proposes a {\it sparse factor graph}, where nodes are variables, and edges represent relations between these variables.\\
+
+Why is this a reasonable hypothesis?
+\begin{itemize}
+    \item Property og high-level variables which we manipulate with language; we can predict {\it some} given very few others.
+    
+    For instance: ``if I drop the ball, it will fall on the ground"
+    
+    \item Disentangled factors are not marginally independent (ball, hand, etc)
+    \item Prior: sparse factor graph imposes a joint distribution between high-level variables.
+    
+    \item Note: this prior does not work in the space of pixels.
+\end{itemize}
+
+
+% idea:
+% \[
+% P(V) \propto \Prod_k \phi_k(V_{sk})
+% \]
+
+
+\spacerule
+\subsubsection{Theoretical framework: meta-learning, localized change hypothesis $\ra$ causal discovery}
+
+Meta-Learning (or ``learning to learn"): having multiple time scales of learning.
+\begin{itemize}
+    \item Bi-level optimization:
+    \begin{itemize}
+        \item Inner Loop of learning that outputs a loss
+        \item Outer loop: continual learning that optimizes the loss from the inner loop
+    \end{itemize}
+    \item Examples: evolution \& individual learning, Lifelong learning and adaptation to new environments.
+\end{itemize}
+
+Q: what causes changes in distribution? \\
+
+{\bf Hypothesis to replace i.i.d. assumption:} the ``localized change hypothesis":
+
+\ddef{Localized Change Hypothesis}{``changes are consequences of an intervention on a few causes or mechanisms." \cite{scholkopf2012causal}}
+
+Then: use OOD generalization as a training signal for factorizing knowledge \cite{bengio2019meta}.
+\begin{itemize}
+    \item A meta-transfer objective for learning to disentangle causal mechanisms
+    \item Learning whether A causes B or vice-versa
+    \item Learning to disentangle (A,B) from (X,Y)
+    \item Exploit changes in distribution and speed of adaptation to guess causal direction.
+\end{itemize}
+
+Newer work: Learning neural causal models from unknown interventions \cite{ke2019learning}. \\
+
+$\ra$ Learning small causal graphs to avoid exponential explosion of number of graphs by parameterizing factorized distribution over graphs. \\
+
+Note: attacking this problem in a very deep learning friendly way. Can plug into the deep learning tools that work already.
+
+
+
+\spacerule
+\subsubsection{Compositional DL architectures}
+
+
+
+Recurrent Independent Mechanisms (RIMs) \cite{goyal2019recurrent}: modularize computation and operate on sets of named and typed objects.
+\begin{itemize}
+    \item multiple recurrent sparsely interacting modules, each with dynamics and object input-outputs
+    \item Results: much better OOD generalization!
+    \item Also RIMs as a replacement for LSTM in PPO, find improvements in Atari.
+\end{itemize}
+
+
+
+Summary: Hypotheses for Conscious Processing by Agents, Systematic Generalization:
+\begin{itemize}
+    \item Sparse factor graph in space of high-level semantic variables
+    \item Semantic variables are causal: agents, intentions, controllable objects
+    \item Shared rules across instance tuples
+    \item Distributional changes from localized causal interventions.
+    
+    $\ra$ Changes are mostly localized {\it if you represent things in the right space}
+    
+    \item Things that are preserved across changes in distribution are the fundamental stable aspects of the world. Meaning should target these aspects.
+\end{itemize}
+
+Conclusions:
+\begin{itemize}
+    \item Time is ripe for ML/AI to explore consciousness
+    \item Could bring new priors to help systematic and OOD generalization
+    \item Could benefit cognitive neuroscience too
+    \item Would allow us to expand deep learning from system 1 to system 2.
+\end{itemize}
+
+% Q\&A:
+% Q: Broad consensus among moral philosophers is that conscisouness is what is necessary for something to be a moral patient. \\
+
+% A: Today I've only talked about the easy problem of consciousness. In Neuro, lots of work on this for awhile.
+
+
+

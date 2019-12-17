@@ -73,13 +73,13 @@ Future Work:
 
 Talk by Rusong Wang. \\
 
-Recent work: shows NNs with sufficiently large width can achieve 0 training error via gradient descent (Li and LLiang, Du et al., Allen-Zhu et al.) \\DAVECITE
+Recent work: shows NNs with sufficiently large width can achieve 0 training error via gradient descent \cite{allen2019learning, du2018power}. \\
 
-This work: relationship between infinite width network and neural tangent kernal (NTK). \\
+This work: relationship between infinite width network and neural tangent kernel (NTK). \\
 
 Questions:
 \begin{enumerate}
-    \item Can we formally show prediction of NNs is equivalent to NTKs when width is sufficinelty large?
+    \item Can we formally show prediction of NNs is equivalent to NTKs when width is sufficienlty large?
     \item How does NTK perform?
 \end{enumerate}
 
@@ -122,23 +122,22 @@ Results:
 \begin{enumerate}
     \item As long as an NN is wide enough, the generalization error can compete with the best function class in the hypothesis class.
     \item New generalization bounds based on the NTK.
-    \item The ``classifiability' of underlying data distribution can be measured by some function of the Gram matrix of the NTK (see Jacot et al).
-    DAVECITE
+    \item The ``classifiability' of underlying data distribution can be measured by some function of the Gram matrix of the NTK (see ~\citet{jacot2018neural}).
 \end{enumerate}
 
-Proof is based on: 1) Deep ReLu nets are almost linear in parameteres in a small neighborhood around initialization, and 2) Loss is Lipschitz continuous and almost convex. \\
+Proof is based on: 1) Deep ReLu nets are almost linear in parameters in a small neighborhood around initialization, and 2) Loss is Lipschitz continuous and almost convex. \\
 
 $\ra$ This result is applicable to general loss functions. \\
 
 Summary:
 \begin{enumerate}
     \item New generalization bounds for wide DNNs that do not increase with network width
-    \item A random feature model (NTRF) naturally connext over-parameterized DNNs with NTK
+    \item A random feature model (NTRF) naturally connects over-parameterized DNNs with NTK
     \item Quantification of classifiability of data.
 \end{enumerate}
 
 \spacerule
-\subsubsection{Efficient and Accurate Estimation of Lipschits Constants for DNNs \cite{fazlyab2019efficient}}
+\subsubsection{Efficient and Accurate Estimation of Lipschitz Constants for DNNs \cite{fazlyab2019efficient}}
 
 Talk by Alex Robey. \\
 
@@ -459,7 +458,7 @@ Taking the divergence minimization perspective seems feasible (as in GAIL), but 
 
 Carry out quantitative comparison to other imitation learning approaches in OpenAI gym environments, achieve state of the art. \\
 
-\subsubsection{Learning to Control Self-Assembling Morpholgies}
+\subsubsection{Learning to Control Self-Assembling Morpholgies \cite{pathak2019learning}}
 
 Talk by Deepak Pathel. \\
 
@@ -523,7 +522,7 @@ AlphaNPI works as a standard program execution in a computer: execution is saved
 Experiments: AlphaNPI to learn libraries of programs to achieve sorting and searching tasks, seems to work!
 
 
-\subsubsection{Guided Meta-Policy Search}
+\subsubsection{Guided Meta-Policy Search \cite{mendonca2019guided}}
 
 Talk by Russell Mendonca. \\
 
@@ -604,7 +603,7 @@ Empirical performance is good, too: applied to tabular MDPs and propose logDQN; 
 $\ra$ Underperforms relative to DQN on a few games where the action gaps are too homogeneous.
 
 
-\subsubsection{Better Exploration with Optimistic Actor Critic}
+\subsubsection{Better Exploration with Optimistic Actor Critic \cite{ciosek2019better}}
 
 Talk by Kamil Ciosek. \\
 
@@ -624,7 +623,7 @@ Want a policy that: 1) is close to target policy, and 2) maximizes the critic up
 
 Super easy to implement this form of optimistic exploration: shift the exploration policy in the direction of the upper bound. Empirical results are very promising, improve over Soft Actor-Critic (SAC). 
 
-\subsubsection{Robust Exploration in Oriented-Exploration in LQ Control}
+\subsubsection{Robust Exploration in Linear Quadratic Reinforcement Learning}
 
 Talk by Hakan Hjalmarsson. \\
 
@@ -644,7 +643,7 @@ Yields a simplified optimization problem. Preserves structure by working with th
 
 Empirical findings: performance of this method is better even though absolute uncertainty is larger. \\
 
-\subsubsection{Tight Regret bounds for Model-Based RL with Greedy Policies}
+\subsubsection{Tight Regret bounds for Model-Based RL with Greedy Policies \cite{efroni2019tight}}
 
 Talk by Yonathon Efroni. \\
 
@@ -667,7 +666,7 @@ This work; model-based RL with short-term planning is minimax optimal for finite
 
 Open question: if one-step planning is minimax optimal, why do we need to use lookahead policies?
 
-\subsubsection{Hindsight Credit Assignment}
+\subsubsection{Hindsight Credit Assignment \cite{harutyunyan2019hindsight}}
 
 Talk by Anna Harutyunyan. \\
 
@@ -688,7 +687,7 @@ Hindsight Credit Assignment is about rewriting our usual value function:
 
 Whole new family of algorithms dedicated to learning the hindsight distribution.
 
-\subsubsection{Weight Agnostic Neural Networks}
+\subsubsection{Weight Agnostic Neural Networks \cite{gaier2019weight}}
 
 Talk by Adam Gaier. \\
 
@@ -702,10 +701,10 @@ $\ra$ A different kind of neural architecture search.
 
 Four key steps
 \begin{enumerate}
-    \item Initiatlize: create pop of minimal nets
-    \item Evaluate: test with range of shared wieght values
-    \item Rank: by performance/complexity
-    \item Vary networks
+    \item Initialize: create pop of minimal nets.
+    \item Evaluate: test with range of shared weight values.
+    \item Rank: by performance/complexity.
+    \item Vary networks.
 \end{enumerate}
 
 Test WANNs on a variety of RL tasks (cart pole, bipedal walker, : find that WANNS perform well with and without training, but perhaps more importantly can do so with significantly smaller neural nets. \\
